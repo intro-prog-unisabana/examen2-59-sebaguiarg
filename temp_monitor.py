@@ -8,11 +8,10 @@
 
 
 def init(max_readings):
-    """
-    Crea y retorna un diccionario para almacenar hasta max_readings lecturas.
-    """
-    # TODO: Implementar
-    pass
+    readings = []
+    total = sum(readings)
+    monitor = {"max": max_readings, "readings": readings, "total": total}
+    return monitor
 
 
 def add_reading(monitor, temp):
@@ -20,24 +19,19 @@ def add_reading(monitor, temp):
     Agrega una nueva lectura con la temperatura especificada.
     Retorna el diccionario modificado.
     """
-    # TODO: Implementar
-    pass
+    monitor["readings"].append(temp)
+    return monitor
 
 
 def count(monitor):
-    """
-    Retorna el numero de lecturas agregadas.
-    """
-    # TODO: Implementar
-    pass
+    count = monitor["readings"]
+    return len(count)
 
 
 def average_temp(monitor):
-    """
-    Retorna la temperatura promedio de todas las lecturas.
-    """
-    # TODO: Implementar
-    pass
+    total = sum(monitor["readings"])
+    average = total/len(monitor["readings"])
+    return average
 
 
 def format_readings(monitor):
@@ -45,24 +39,34 @@ def format_readings(monitor):
     Retorna una representacion en cadena de las temperaturas.
     Formato: [t1, t2, t3, ..., tn]
     """
-    # TODO: Implementar
-    pass
+    return str(monitor["readings"])
 
 
 def highest_temp(monitor):
     """
     Retorna la temperatura mas alta de cualquier lectura.
     """
-    # TODO: Implementar
-    pass
+    temps = max(monitor["readings"])
+    return temps
 
 
 def coldest_window(monitor, k):
     """
     Retorna el promedio mas bajo de cualquier k lecturas consecutivas.
     """
-    # TODO: Implementar
-    pass
+    readings = monitor["readings"]
+    n = len(readings)
+    if n < k or k <= 0:
+        return None
+    
+    f_window = readings[0:k]
+    coldest = sum(f_window)/k
+    for i in range(n-k+1):
+        window = readings[i: i+k]
+        promedio = sum(window)/k
+        if promedio < coldest:
+            coldest = promedio
+    return coldest
 
 
 def longest_rising_streak(monitor):
@@ -70,8 +74,18 @@ def longest_rising_streak(monitor):
     Retorna la longitud maxima de una secuencia de lecturas consecutivas
     donde las temperaturas aumentan estrictamente.
     """
-    # TODO: Implementar
-    pass
+    readings = monitor["readings"]
+    max_streak = 1
+    current_streak = 1
+
+    for i in range(1, len(readings)):
+        if readings[i] > readings[i-1]:
+            current_streak += 1
+        else:
+            max_streak = max(max_streak, current_streak)
+            current_streak = 1
+    
+    return max(max_streak, current_streak)
 
 
 def main():
